@@ -18,6 +18,21 @@ public class CustomerManager implements Manager {
         this.jdbcTemplate = jdbcTemplate;
     }
 
+    @PostConstruct
+    public void afterInit() {
+        String statement = """
+                CREATE TABLE IF NOT EXISTS Customers (
+                    CustomerID INTEGER PRIMARY KEY AUTOINCREMENT,
+                    CustomerName TEXT,
+                    ContactName TEXT,
+                    Address TEXT,
+                    City TEXT,
+                    PostalCode TEXT,
+                    Country TEXT
+                    )
+                """.strip();
+        jdbcTemplate.update(statement);
+    }
     @Override
     public int insert(Customer customer) {
         var statement = "INSERT INTO Customers(CustomerID, CustomerName, ContactName, Address, City, PostalCode, Country) VALUES (?,?,?,?,?,?,?)";
@@ -33,21 +48,6 @@ public class CustomerManager implements Manager {
     public int delete(int CustomerID) {
         var sql = "DELETE FROM Customers where CustomerID = ?";
         return jdbcTemplate.update(sql, CustomerID);
-    }
-    @PostConstruct
-    public void afterInit() {
-        String statement = """
-                CREATE TABLE IF NOT EXISTS Customers (
-                    CustomerID INTEGER PRIMARY KEY AUTOINCREMENT,
-                    CustomerName TEXT,
-                    ContactName TEXT,
-                    Address TEXT,
-                    City TEXT,
-                    PostalCode TEXT,
-                    Country TEXT
-                    )
-                """.strip();
-        jdbcTemplate.update(statement);
     }
 
 }
