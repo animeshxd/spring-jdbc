@@ -11,7 +11,7 @@ public class App {
         var ctx = new ClassPathXmlApplicationContext("spring.xml");
         var jdbc = ctx.getBean("jdbcTemplate", JdbcTemplate.class);
 
-        String starement = """
+        String statement = """
                 CREATE TABLE IF NOT EXISTS Customers (
                     CustomerID INTEGER PRIMARY KEY AUTOINCREMENT,
                     CustomerName TEXT,
@@ -22,16 +22,16 @@ public class App {
                     Country TEXT
                     )
                 """.strip();
-        jdbc.update(starement); // create table
+        jdbc.update(statement); // create table
 
         var reader = new BufferedReader(new FileReader("test.txt"));
-        starement = "INSERT INTO Customers(CustomerID, CustomerName, ContactName, Address, City, PostalCode, Country) VALUES (?,?,?,?,?,?,?)";
-        final String statement = starement;
+        statement = "INSERT INTO Customers(CustomerID, CustomerName, ContactName, Address, City, PostalCode, Country) VALUES (?,?,?,?,?,?,?)";
+        final String _statement = statement;
 
         reader.lines().forEach((data) -> {
 
             try {
-                int update = jdbc.update(statement, (Object[]) data.split(" , "));
+                int update = jdbc.update(_statement, (Object[]) data.split(" , "));
                 System.out.println("number of row affected: " + update);
             } catch (Exception e) {
                 System.out.println(data);
