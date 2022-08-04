@@ -10,6 +10,7 @@ public class Customer {
     private String  postalCode;
     private String  country;
 
+    public Customer(Integer customerID){this.customerID = customerID;};
 
     public Customer(
         Integer customerID, 

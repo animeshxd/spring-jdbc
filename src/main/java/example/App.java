@@ -22,6 +22,9 @@ public class App {
         customer.setPostalCode("0013");
         r = manager.update(customer);
         System.out.println("rows affected: " + r);
+
+        var customer_ = manager.findOne(32);
+        System.out.println(customer_);
         ctx.close();
     }
 }

@@ -5,7 +5,12 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
 import example.models.Customer;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 import javax.annotation.PostConstruct;
+import org.springframework.jdbc.core.RowMapper;
 
 @Component
 public class CustomerManager implements Manager {
@@ -50,4 +55,26 @@ public class CustomerManager implements Manager {
         return jdbcTemplate.update(sql, CustomerID);
     }
 
+    @Override
+    public Customer findOne(int CustomerID) {
+        var sql = "SELECT * FROM Customers WHERE CustomerID = ?";
+        var mapper = new RowMapper<Customer>() {
+
+            @Override
+            public Customer mapRow(ResultSet rs, int rowNum) throws SQLException {
+                
+                var customer = new Customer(rs.getInt(1));
+                
+                customer.setCustomerName(rs.getString(2));
+                customer.setContactName(rs.getString(3));
+                customer.setAddress(rs.getString(4));
+                customer.setCity(rs.getString(5));
+                customer.setPostalCode(rs.getString(6));
+                customer.setCountry(rs.getString(7));
+                return customer;
+            }
+            
+        };
+        return jdbcTemplate.queryForObject(sql, mapper, CustomerID);
+    }
 }

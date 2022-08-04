@@ -9,6 +9,8 @@ public interface Manager {
     public int update(Customer customer);
     public int delete(int CustomerID);
 
+    public Customer findOne(int CustomerID);
+
     @PostConstruct
     public void afterInit();
 }
