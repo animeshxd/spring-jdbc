@@ -29,6 +29,11 @@ public class CustomerManager implements Manager {
        var statement = "UPDATE Customers SET CustomerName = ?, ContactName = ?, Address = ?, City = ?, PostalCode = ?, Country = ? WHERE CustomerID = ?";
         return jdbcTemplate.update(statement, customer.getCustomerName(), customer.getContactName(), customer.getAddress(), customer.getCity(), customer.getPostalCode(), customer.getCountry(), customer.getCustomerID());
     }
+    @Override
+    public int delete(int CustomerID) {
+        var sql = "DELETE FROM Customers where CustomerID = ?";
+        return jdbcTemplate.update(sql, CustomerID);
+    }
     @PostConstruct
     public void afterInit() {
         String statement = """
