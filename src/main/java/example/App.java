@@ -1,7 +1,5 @@
 package example;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
 
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -11,20 +9,17 @@ import example.models.Customer;
 public class App {
     public static void main(String[] args) throws Exception {
         var ctx = new ClassPathXmlApplicationContext("spring.xml");
-        var customerManager = ctx.getBean("customerManager", Manager.class);
+        var manager = ctx.getBean("customerManager", Manager.class);
 
-        var reader = new BufferedReader(new FileReader("test.txt"));
-        reader.lines().forEach((data) -> {
+        var customer = new Customer(32, "Robot", "XA12-V002", "S2F1", "XA", "0012", "RobotLand-1");
+        System.out.println(customer);
 
-            try {
-                int update = customerManager.insert(new Customer(data.split(" , ")));
-                System.out.println("number of row affected: " + update);
-            } catch (Exception e) {
-                System.out.println(data);
-            }
-        });
+        var r = manager.insert(customer);
+        System.out.println("rows affected: " + r);
 
-        reader.close();
+        customer.setPostalCode("0013");
+        r = manager.update(customer);
+        System.out.println("rows affected: " + r);
         ctx.close();
     }
 }

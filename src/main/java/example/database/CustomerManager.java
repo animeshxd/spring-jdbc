@@ -24,6 +24,11 @@ public class CustomerManager implements Manager {
         return jdbcTemplate.update(statement, customer.toObjects());
     }
 
+    @Override
+    public int update(Customer customer) {
+       var statement = "UPDATE Customers SET CustomerName = ?, ContactName = ?, Address = ?, City = ?, PostalCode = ?, Country = ? WHERE CustomerID = ?";
+        return jdbcTemplate.update(statement, customer.getCustomerName(), customer.getContactName(), customer.getAddress(), customer.getCity(), customer.getPostalCode(), customer.getCountry(), customer.getCustomerID());
+    }
     @PostConstruct
     public void afterInit() {
         String statement = """

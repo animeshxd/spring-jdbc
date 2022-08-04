@@ -6,6 +6,7 @@ import example.models.Customer;
 
 public interface Manager {
     public int insert(Customer customer);
+    public int update(Customer customer);
 
     @PostConstruct
     public void afterInit();
