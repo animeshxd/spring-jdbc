@@ -25,6 +25,11 @@ public class App {
 
         var customer_ = manager.findOne(32);
         System.out.println(customer_);
+
+        var customers = manager.findAll();
+        for(Customer c: customers){
+            System.out.println(c);
+        }
         ctx.close();
     }
 }
